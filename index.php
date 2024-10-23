@@ -86,7 +86,7 @@ $result = $conn->query($sql);
                     <h2><?php echo $row['title']; ?></h2>
                     <p><?php echo $row['album']; ?> (<?php echo $row['year']; ?>) by <?php echo $row['artist']; ?></p>
                     <audio controls>
-                        <source src="<?php echo $row['musicPath']; ?>" type="audio/mpeg">
+                        <source src="<?php echo $row['music_path']; ?>" type="audio/mpeg">
                         Your browser does not support the audio tag.
                     </audio>
                     <img src="./assets/images/poster-placeholder.jpg" alt="Poster" width="100"> <!-- Placeholder for poster -->
