@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 }
 
 // Fetch songs from database
-$sql = "SELECT title, album, year, artist, musicPath FROM songs";
+$sql = "SELECT title, album, year, artist, music_path FROM songs";
 $result = $conn->query($sql);
 ?>
 
