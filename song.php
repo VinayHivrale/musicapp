@@ -35,15 +35,14 @@ $song = $result->fetch_assoc();
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #121212;
-            color: #ffffff;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
         }
 
         header {
-            background: #1f1f1f;
-            color: #ffffff;
+            background: #333;
+            color: #fff;
             padding: 20px 0;
             text-align: center;
         }
@@ -56,35 +55,28 @@ $song = $result->fetch_assoc();
 
         .music-details {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             padding: 20px;
         }
 
         .music-item {
-            background: #1e1e1e;
+            background: #fff;
             border-radius: 10px;
             padding: 20px;
-            margin: 15px;
-            width: 70%;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-        }
-
-        .music-item img {
-            width: 200px;
-            margin-right: 20px;
-            border-radius: 10px;
+            margin: 15px 0;
+            width: 90%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
         }
 
         .music-item h2 {
             font-size: 24px;
-            color: #ffffff;
+            color: #333;
         }
 
         .music-item p {
-            color: #cccccc;
+            color: #666;
             font-size: 18px;
         }
 
@@ -92,35 +84,23 @@ $song = $result->fetch_assoc();
             width: 100%;
             margin-top: 15px;
             outline: none;
-            background: #1f1f1f;
-            border: none;
+        }
+
+        img {
+            width: 200px;
+            margin-top: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         footer {
             text-align: center;
             padding: 10px 0;
-            background: #1f1f1f;
-            color: #ffffff;
+            background: #333;
+            color: #fff;
             position: fixed;
             width: 100%;
             bottom: 0;
-        }
-
-        .audio-control {
-            background: #1f1f1f;
-            border: none;
-            color: #ffffff;
-            border-radius: 5px;
-            padding: 5px;
-        }
-
-        .audio-control::-webkit-media-controls-panel {
-            background-color: #1f1f1f;
-            color: #ffffff;
-        }
-
-        .audio-control::-webkit-media-controls-play-button {
-            background: #1f1f1f;
         }
     </style>
 </head>
@@ -133,15 +113,13 @@ $song = $result->fetch_assoc();
     <div class="music-details">
         <?php if ($song): ?>
             <div class="music-item">
+                <h2><?php echo htmlspecialchars($song['title']); ?></h2>
+                <p><?php echo htmlspecialchars($song['album']); ?> (<?php echo htmlspecialchars($song['year']); ?>) by <?php echo htmlspecialchars($song['artist']); ?></p>
+                <audio controls>
+                    <source src="<?php echo htmlspecialchars($song['music_path']); ?>" type="audio/mpeg">
+                    Your browser does not support the audio tag.
+                </audio>
                 <img src="<?php echo htmlspecialchars($song['poster_url']); ?>" alt="Poster for <?php echo htmlspecialchars($song['title']); ?>">
-                <div>
-                    <h2><?php echo htmlspecialchars($song['title']); ?></h2>
-                    <p><?php echo htmlspecialchars($song['album']); ?> (<?php echo htmlspecialchars($song['year']); ?>) by <?php echo htmlspecialchars($song['artist']); ?></p>
-                    <audio class="audio-control" controls>
-                        <source src="<?php echo htmlspecialchars($song['music_path']); ?>" type="audio/mpeg">
-                        Your browser does not support the audio tag.
-                    </audio>
-                </div>
             </div>
         <?php else: ?>
             <p>Song not found.</p>

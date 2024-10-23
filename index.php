@@ -28,15 +28,14 @@ $result = $conn->query($sql);
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #121212;
-            color: #ffffff;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
         }
 
         header {
-            background: #1f1f1f;
-            color: #ffffff;
+            background: #333;
+            color: #fff;
             padding: 20px 0;
             text-align: center;
         }
@@ -55,12 +54,12 @@ $result = $conn->query($sql);
         }
 
         .music-item {
-            background: #1e1e1e;
+            background: #fff;
             border-radius: 10px;
             padding: 20px;
             margin: 15px 0;
             width: 90%;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             transition: transform 0.2s;
             text-align: center;
         }
@@ -71,15 +70,15 @@ $result = $conn->query($sql);
 
         .music-item a {
             text-decoration: none;
-            color: #ffffff;
+            color: #333;
             font-size: 20px;
         }
 
         footer {
             text-align: center;
             padding: 10px 0;
-            background: #1f1f1f;
-            color: #ffffff;
+            background: #333;
+            color: #fff;
             position: fixed;
             width: 100%;
             bottom: 0;
