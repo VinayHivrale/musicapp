@@ -13,9 +13,16 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch songs from database
-$sql = "SELECT id, title FROM songs";
-$result = $conn->query($sql);
+// Get the song ID from the URL
+$song_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+// Fetch song details from database
+$sql = "SELECT title, album, year, artist, music_path, poster_url FROM songs WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $song_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$song = $result->fetch_assoc();
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +31,7 @@ $result = $conn->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Player</title>
+    <title><?php echo htmlspecialchars($song['title']); ?> - Music Player</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -46,7 +53,7 @@ $result = $conn->query($sql);
             letter-spacing: 1px;
         }
 
-        .music-list {
+        .music-details {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -60,18 +67,30 @@ $result = $conn->query($sql);
             margin: 15px 0;
             width: 90%;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s;
             text-align: center;
         }
 
-        .music-item:hover {
-            transform: scale(1.02);
+        .music-item h2 {
+            font-size: 24px;
+            color: #333;
         }
 
-        .music-item a {
-            text-decoration: none;
-            color: #333;
-            font-size: 20px;
+        .music-item p {
+            color: #666;
+            font-size: 18px;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 15px;
+            outline: none;
+        }
+
+        img {
+            width: 200px;
+            margin-top: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         footer {
@@ -88,20 +107,22 @@ $result = $conn->query($sql);
 
 <body>
     <header>
-        <h1>Music Player</h1>
+        <h1><?php echo htmlspecialchars($song['title']); ?></h1>
     </header>
 
-    <div class="music-list">
-        <?php if ($result->num_rows > 0): ?>
-            <?php while($row = $result->fetch_assoc()): ?>
-                <div class="music-item">
-                    <a href="song.php?id=<?php echo htmlspecialchars($row['id']); ?>">
-                        <?php echo htmlspecialchars($row['title']); ?>
-                    </a>
-                </div>
-            <?php endwhile; ?>
+    <div class="music-details">
+        <?php if ($song): ?>
+            <div class="music-item">
+                <h2><?php echo htmlspecialchars($song['title']); ?></h2>
+                <p><?php echo htmlspecialchars($song['album']); ?> (<?php echo htmlspecialchars($song['year']); ?>) by <?php echo htmlspecialchars($song['artist']); ?></p>
+                <audio controls>
+                    <source src="<?php echo htmlspecialchars($song['music_path']); ?>" type="audio/mpeg">
+                    Your browser does not support the audio tag.
+                </audio>
+                <img src="<?php echo htmlspecialchars($song['poster_url']); ?>" alt="Poster for <?php echo htmlspecialchars($song['title']); ?>">
+            </div>
         <?php else: ?>
-            <p>No songs found.</p>
+            <p>Song not found.</p>
         <?php endif; ?>
     </div>
 
@@ -109,7 +130,10 @@ $result = $conn->query($sql);
         <p>&copy; <?php echo date("Y"); ?> Music Player. All rights reserved.</p>
     </footer>
 
-    <?php $conn->close(); ?>
+    <?php 
+    $stmt->close(); 
+    $conn->close(); 
+    ?>
 </body>
 
 </html>
