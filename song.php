@@ -1,6 +1,6 @@
 <?php
 // Database configuration
-$servername = "database-1.clio0o8i4azq.eu-north-1.rds.amazonaws.com";
+$servername = " database-2.c5k4ul5ztjqm.us-east-1.rds.amazonaws.com";
 $username = "admin";
 $password = "vinay2608"; // Replace with your actual password
 $dbname = "musicapp";
